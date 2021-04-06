@@ -21,7 +21,7 @@ function SvgComponent(props) {
 			.set(element.querySelector('#prefix__bird'), { y: '+=65', autoAlpha: 0 })
 			.set(element.querySelector('#prefix__NestAndLeafs'), { autoAlpha: 0 })
 			.set(element.querySelector('#prefix__tree_trunk'), { autoAlpha: 0 })
-			.set(element.querySelector('#prefix__floor_leaves'), {
+			.set(element.querySelectorAll('[id^=prefix__floorleaf]'), {
 				y: '+=300',
 				onComplete: showContainer({ element }),
 			});
@@ -32,10 +32,18 @@ function SvgComponent(props) {
 	useEffect(() => {
 		const element = ref.current;
 		const masterTl = new TimelineMax();
+		const enterFloorVegetation = new TimelineMax();
+
+		enterFloorVegetation.staggerTo(
+			element.querySelectorAll('[id^=prefix__floorleaf]'),
+			1,
+			{ y: 0 },
+			0.025,
+		);
 
 		const { clearTl } = clear({ element });
 
-		masterTl.add(clearTl);
+		masterTl.add(clearTl).add(enterFloorVegetation);
 	}, []);
 
 	return (
