@@ -5,11 +5,10 @@ import { TimelineMax } from 'gsap/all';
 function SvgComponent(props) {
 	const ref = useRef(null);
 
-	useEffect(() => {
-		const element = ref.current;
-		const clearTl = new TimelineMax();
-		const masterTl = new TimelineMax();
+	const showContainer = ({ element }) => (element.style.display = 'block');
 
+	const clear = ({ element }) => {
+		const clearTl = new TimelineMax();
 		clearTl
 			.set(element.querySelector('#prefix__front_falling_leaves'), {
 				autoAlpha: 0,
@@ -22,7 +21,19 @@ function SvgComponent(props) {
 			.set(element.querySelector('#prefix__bird'), { y: '+=65', autoAlpha: 0 })
 			.set(element.querySelector('#prefix__NestAndLeafs'), { autoAlpha: 0 })
 			.set(element.querySelector('#prefix__tree_trunk'), { autoAlpha: 0 })
-			.set(element.querySelector('#prefix__floor_leaves'), { y: '+=300' });
+			.set(element.querySelector('#prefix__floor_leaves'), {
+				y: '+=300',
+				onComplete: showContainer({ element }),
+			});
+
+		return { clearTl };
+	};
+
+	useEffect(() => {
+		const element = ref.current;
+		const masterTl = new TimelineMax();
+
+		const { clearTl } = clear({ element });
 
 		masterTl.add(clearTl);
 	}, []);
