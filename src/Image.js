@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useRef } from 'react';
-import { TimelineMax } from 'gsap/all';
+import { TimelineMax, Back } from 'gsap/all';
 
 function SvgComponent(props) {
 	const ref = useRef(null);
@@ -34,12 +34,18 @@ function SvgComponent(props) {
 		const masterTl = new TimelineMax();
 		const enterFloorVegetation = new TimelineMax();
 
-		enterFloorVegetation.staggerTo(
-			element.querySelectorAll('[id^=prefix__floorleaf]'),
-			1,
-			{ y: 0 },
-			0.025,
-		);
+		enterFloorVegetation
+			.staggerTo(
+				element.querySelectorAll('[id^=prefix__floorleaf]'),
+				1,
+				{ y: 0, ease: Back.easeOut },
+				0.025,
+			)
+			.fromTo(
+				element.querySelector('#prefix__tree_trunk'),
+				{ transformOrigin: 'center bottom', scale: 0.2, autoAlpha: 0 },
+				{ y: 0, scale: 1, autoAlpha: 1 },
+			);
 
 		const { clearTl } = clear({ element });
 
