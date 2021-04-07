@@ -17,7 +17,7 @@ function SvgComponent(props) {
 				autoAlpha: 0,
 			})
 			.set(element.querySelector('#prefix__textstuff'), { autoAlpha: 0 })
-			.set(element.querySelector('#prefix__tree_leaves'), { autoAlpha: 0 })
+			.set(element.querySelectorAll('[id^=prefix__treeleaf]'), { autoAlpha: 0 })
 			.set(element.querySelector('#prefix__bird'), { y: '+=65', autoAlpha: 0 })
 			.set(element.querySelector('#prefix__NestAndLeafs'), { autoAlpha: 0 })
 			.set(element.querySelector('#prefix__tree_trunk'), { autoAlpha: 0 })
@@ -29,11 +29,8 @@ function SvgComponent(props) {
 		return { clearTl };
 	};
 
-	useEffect(() => {
-		const element = ref.current;
-		const masterTl = new TimelineMax();
+	const showVegetation = ({ element }) => {
 		const enterFloorVegetation = new TimelineMax();
-
 		enterFloorVegetation
 			.staggerTo(
 				element.querySelectorAll('[id^=prefix__floorleaf]'),
@@ -50,12 +47,37 @@ function SvgComponent(props) {
 					autoAlpha: 1,
 					transformOrigin: 'center bottom',
 					ease: Back.easeOut,
+					y: 50,
 				},
 			);
 
-		const { clearTl } = clear({ element });
+		return { enterFloorVegetation };
+	};
 
-		masterTl.add(clearTl).add(enterFloorVegetation);
+	useEffect(() => {
+		const element = ref.current;
+		const masterTl = new TimelineMax();
+
+		const treeStuffTl = new TimelineMax();
+
+		treeStuffTl.staggerFromTo(
+			element.querySelectorAll('[id^=prefix__treeleaf]'),
+			1.25,
+			{ scale: 0.2, autoAlpha: 0, transformOrigin: 'center bottom' },
+			{
+				scale: 1,
+				autoAlpha: 1,
+				transformOrigin: 'center bottom',
+				ease: Back.easeInOut,
+				y: 50
+			},
+			0.025,
+		);
+
+		const { clearTl } = clear({ element });
+		const { enterFloorVegetation } = showVegetation({ element });
+
+		masterTl.add(clearTl).add(enterFloorVegetation).add(treeStuffTl);
 	}, []);
 
 	return (
