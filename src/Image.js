@@ -43,8 +43,14 @@ function SvgComponent(props) {
 			)
 			.fromTo(
 				element.querySelector('#prefix__tree_trunk'),
-				{ transformOrigin: 'center bottom', scale: 0.2, autoAlpha: 0 },
-				{ y: 0, scale: 1, autoAlpha: 1 },
+				1.1,
+				{ scale: 0.2, autoAlpha: 0, transformOrigin: 'center bottom' },
+				{
+					scale: 1,
+					autoAlpha: 1,
+					transformOrigin: 'center bottom',
+					ease: Back.easeOut,
+				},
 			);
 
 		const { clearTl } = clear({ element });
