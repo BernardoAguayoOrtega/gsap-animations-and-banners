@@ -157,7 +157,7 @@ function SvgComponent(props) {
 				'+=0.4',
 			)
 			.add('bird-blinks')
-			.to(element.querySelector('#prefix__bird'), 1, {
+			.to(element.querySelector('#prefix__bird'), 0.8, {
 				y: 30,
 				transformOrigin: 'center bottom',
 				ease: Power4.easeInOut,
@@ -192,6 +192,24 @@ function SvgComponent(props) {
 					ease: Back.easeInOut,
 				},
 				'-=1',
+			)
+			.to(
+				element.querySelector('#prefix__BirdHat'),
+				0.3,
+				{
+					y: '-=8',
+				},
+				'-=1.5',
+			)
+			.to(
+				element.querySelector('#prefix__BirdHat'),
+				0.3,
+				{
+					y: '+=8',
+					x: 0,
+					rotation: 0,
+				},
+				'-=.5',
 			)
 			.to(
 				element.querySelector('#prefix__bird'),
