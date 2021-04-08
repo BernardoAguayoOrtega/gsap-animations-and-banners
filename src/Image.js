@@ -155,6 +155,53 @@ function SvgComponent(props) {
 					autoAlpha: 1,
 				},
 				'+=0.4',
+			)
+			.add('bird-blinks')
+			.to(element.querySelector('#prefix__bird'), 1, {
+				y: 30,
+				transformOrigin: 'center bottom',
+				ease: Power4.easeInOut,
+			})
+			.to(
+				'#prefix__leftwing',
+				1,
+				{
+					rotation: '-10',
+					ease: Back.easeInOut,
+				},
+				'-=1',
+			)
+			.to(
+				'#prefix__rightwing',
+				1,
+				{
+					rotation: '10',
+					ease: Back.easeInOut,
+				},
+				'-=2',
+			)
+			.to('#prefix__leftwing', 1, {
+				rotation: '5',
+				ease: Back.easeInOut,
+			})
+			.to(
+				'#prefix__rightwing',
+				1,
+				{
+					rotation: '-3',
+					ease: Back.easeInOut,
+				},
+				'-=1',
+			)
+			.to(
+				element.querySelector('#prefix__bird'),
+				1,
+				{
+					y: 45,
+					transformOrigin: 'center bottom',
+					ease: Back.easeInOut,
+				},
+				'-=1',
 			);
 
 		const { clearTl } = clear({ element });
