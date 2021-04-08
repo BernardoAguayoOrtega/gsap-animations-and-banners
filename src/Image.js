@@ -18,7 +18,7 @@ function SvgComponent(props) {
 			})
 			.set(element.querySelector('#line1'), { autoAlpha: 0 })
 			.set(element.querySelector('#line2'), { autoAlpha: 0 })
-			.set(element.querySelector('#line3'), { autoAlpha: 0 })
+			.set(element.querySelectorAll('#line3 > path'), { autoAlpha: 0 })
 			.set(element.querySelectorAll('[id^=prefix__treeleaf]'), { autoAlpha: 0 })
 			.set(element.querySelector('#prefix__bird'), { y: '+=65', autoAlpha: 0 })
 			.set(element.querySelector('#prefix__NestAndLeafs'), { autoAlpha: 0 })
@@ -255,6 +255,31 @@ function SvgComponent(props) {
 			);
 	};
 
+	const showGreet = ({ element }) => {
+		const greetingTl = new TimelineMax();
+
+		greetingTl
+			.fromTo('#line1', 1, { y: '-=50', autoAlpha: 0 }, { y: 0, autoAlpha: 1 })
+			.fromTo('#line2', 1, { y: '-=25', autoAlpha: 0 }, { y: 0, autoAlpha: 1 })
+			.staggerFromTo(
+				'#line3 > path',
+				0.5,
+				{
+					scale: 2,
+					autoAlpha: 0,
+					transformOrigin: 'center center',
+				},
+				{
+					scale: 1,
+					autoAlpha: 1,
+					transformOrigin: 'center center',
+				},
+				0.15,
+			);
+
+		return { greetingTl };
+	};
+
 	useEffect(() => {
 		const element = ref.current;
 		const masterTl = new TimelineMax();
@@ -262,10 +287,7 @@ function SvgComponent(props) {
 		const { clearTl } = clear({ element });
 		const { enterFloorVegetation } = showVegetation({ element });
 		const { treeStuffTl } = treeEntry({ element });
-
-		const greetingTl = new TimelineMax();
-
-		// greetingTl.fromTo('[id^=prefix___x5F]')
+		const { greetingTl } = showGreet({ element });
 
 		masterTl
 			.add(clearTl)
@@ -1018,22 +1040,22 @@ function SvgComponent(props) {
 				</g>
 			</g>
 			<g id='prefix__textstuff'>
-				<path
-					id='prefix___x5F_T'
-					d='M890.36 315.54v-2.67h14.96v2.67h-6.09v24.62h-2.78v-24.62h-6.09z'
-					fill='#9E5A39'
-				/>
-				<path
-					id='prefix___x5F_h'
-					d='M908.83 312.18h2.6v11.41c1.05-1.38 2.21-2.42 3.47-3.11s2.63-1.03 4.1-1.03c1.51 0 2.85.38 4.02 1.15a6.91 6.91 0 012.59 3.09c.56 1.29.83 3.32.83 6.08v10.39h-2.6v-9.63c0-2.33-.09-3.88-.28-4.66-.32-1.34-.91-2.34-1.75-3.01-.85-.67-1.96-1.01-3.33-1.01-1.57 0-2.98.52-4.22 1.56s-2.06 2.33-2.46 3.86c-.25.99-.37 2.82-.37 5.49v7.4h-2.6v-27.98z'
-					fill='#9E5A39'
-				/>
-				<path
-					id='prefix___x5F_e'
-					d='M949 333.46l2.19 1.15c-.72 1.41-1.55 2.55-2.49 3.41-.94.87-2 1.53-3.18 1.98s-2.51.68-3.99.68c-3.29 0-5.87-1.08-7.73-3.24-1.86-2.16-2.78-4.6-2.78-7.32 0-2.56.79-4.84 2.36-6.85 1.99-2.55 4.66-3.82 8.01-3.82 3.44 0 6.19 1.31 8.24 3.92 1.46 1.84 2.2 4.14 2.23 6.9H933.7c.05 2.35.8 4.27 2.25 5.77s3.24 2.25 5.37 2.25c1.03 0 2.03-.18 3-.54.97-.36 1.8-.83 2.48-1.42.67-.59 1.4-1.55 2.2-2.87zm0-5.43c-.35-1.38-.85-2.49-1.51-3.32-.66-.83-1.54-1.5-2.63-2a7.995 7.995 0 00-3.44-.76c-1.98 0-3.68.64-5.11 1.91-1.04.93-1.83 2.32-2.36 4.18H949z'
-					fill='#9E5A39'
-				/>
 				<g id='line1'>
+					<path
+						id='prefix___x5F_T'
+						d='M890.36 315.54v-2.67h14.96v2.67h-6.09v24.62h-2.78v-24.62h-6.09z'
+						fill='#9E5A39'
+					/>
+					<path
+						id='prefix___x5F_h'
+						d='M908.83 312.18h2.6v11.41c1.05-1.38 2.21-2.42 3.47-3.11s2.63-1.03 4.1-1.03c1.51 0 2.85.38 4.02 1.15a6.91 6.91 0 012.59 3.09c.56 1.29.83 3.32.83 6.08v10.39h-2.6v-9.63c0-2.33-.09-3.88-.28-4.66-.32-1.34-.91-2.34-1.75-3.01-.85-.67-1.96-1.01-3.33-1.01-1.57 0-2.98.52-4.22 1.56s-2.06 2.33-2.46 3.86c-.25.99-.37 2.82-.37 5.49v7.4h-2.6v-27.98z'
+						fill='#9E5A39'
+					/>
+					<path
+						id='prefix___x5F_e'
+						d='M949 333.46l2.19 1.15c-.72 1.41-1.55 2.55-2.49 3.41-.94.87-2 1.53-3.18 1.98s-2.51.68-3.99.68c-3.29 0-5.87-1.08-7.73-3.24-1.86-2.16-2.78-4.6-2.78-7.32 0-2.56.79-4.84 2.36-6.85 1.99-2.55 4.66-3.82 8.01-3.82 3.44 0 6.19 1.31 8.24 3.92 1.46 1.84 2.2 4.14 2.23 6.9H933.7c.05 2.35.8 4.27 2.25 5.77s3.24 2.25 5.37 2.25c1.03 0 2.03-.18 3-.54.97-.36 1.8-.83 2.48-1.42.67-.59 1.4-1.55 2.2-2.87zm0-5.43c-.35-1.38-.85-2.49-1.51-3.32-.66-.83-1.54-1.5-2.63-2a7.995 7.995 0 00-3.44-.76c-1.98 0-3.68.64-5.11 1.91-1.04.93-1.83 2.32-2.36 4.18H949z'
+						fill='#9E5A39'
+					/>
 					<path
 						id='prefix__red_x5F_R'
 						d='M967.79 312.87h5.44c3.03 0 5.08.12 6.16.37 1.62.37 2.94 1.17 3.95 2.39 1.01 1.22 1.52 2.72 1.52 4.51 0 1.49-.35 2.79-1.05 3.92-.7 1.13-1.7 1.98-3 2.56-1.3.58-3.09.87-5.38.88l9.81 12.67h-3.37l-9.81-12.67h-1.54v12.67h-2.73v-27.3zm2.73 2.67v9.28l4.7.04c1.82 0 3.17-.17 4.04-.52s1.56-.9 2.05-1.66c.49-.76.73-1.61.73-2.55 0-.91-.25-1.75-.74-2.5-.5-.75-1.15-1.28-1.95-1.6-.8-.32-2.14-.48-4.01-.48h-4.82z'
