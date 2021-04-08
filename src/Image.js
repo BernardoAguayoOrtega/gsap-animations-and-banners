@@ -259,7 +259,12 @@ function SvgComponent(props) {
 		const greetingTl = new TimelineMax();
 
 		greetingTl
-			.fromTo('#line1', 1, { y: '-=50', autoAlpha: 0 }, { y: 0, autoAlpha: 1 })
+			.fromTo(
+				'#line1',
+				1,
+				{ y: '-=50', autoAlpha: 0 },
+				{ y: 0, autoAlpha: 1, onComplete: startLoops },
+			)
 			.fromTo('#line2', 1, { y: '-=25', autoAlpha: 0 }, { y: 0, autoAlpha: 1 })
 			.staggerFromTo(
 				'#line3 > path',
@@ -278,6 +283,17 @@ function SvgComponent(props) {
 			);
 
 		return { greetingTl };
+	};
+
+	const startLoops = () => {
+		const colors = ['#edcc93', '#f7e3ae', '#f3ebcc', '#edcc93'];
+		const bgTl = new TimelineMax({ repeat: -1 });
+
+		bgTl
+			.to('.card-container', 3, { background: colors[0] })
+			.to('.card-container', 3, { background: colors[1] }, '+=2')
+			.to('.card-container', 3, { background: colors[2] }, '+=2')
+			.to('.card-container', 3, { background: colors[3] }, '+=2');
 	};
 
 	useEffect(() => {
