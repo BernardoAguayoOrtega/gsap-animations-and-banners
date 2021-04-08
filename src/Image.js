@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useRef } from 'react';
-import { TimelineMax, Back } from 'gsap/all';
+import { TimelineMax, Back, Elastic, Bounce, Power4 } from 'gsap/all';
 
 function SvgComponent(props) {
 	const ref = useRef(null);
@@ -60,19 +60,72 @@ function SvgComponent(props) {
 
 		const treeStuffTl = new TimelineMax();
 
-		treeStuffTl.staggerFromTo(
-			element.querySelectorAll('[id^=prefix__treeleaf]'),
-			1.25,
-			{ scale: 0.2, autoAlpha: 0, transformOrigin: 'center bottom' },
-			{
+		treeStuffTl
+			.staggerFromTo(
+				element.querySelectorAll('[id^=prefix__treeleaf]'),
+				1.25,
+				{ scale: 0.2, autoAlpha: 0, transformOrigin: 'center bottom' },
+				{
+					scale: 1,
+					autoAlpha: 1,
+					transformOrigin: 'center bottom',
+					ease: Back.easeInOut,
+					y: 50,
+				},
+				0.025,
+			)
+			.fromTo(
+				element.querySelector('#prefix__NestAndLeafs'),
+				1,
+				{
+					y: 0,
+					scale: 0.2,
+					autoAlpha: 0,
+					transformOrigin: 'center bottom',
+				},
+				{
+					y: '+=20',
+					scale: 1,
+					autoAlpha: 1,
+					transformOrigin: 'center bottom',
+					ease: Elastic.easeOut,
+				},
+			)
+			.to(element.querySelector('#prefix__NestAndLeafs'), 0.03, {
+				y: '+=20',
+				ease: Bounce.easeOut,
+			})
+			.add('nest-pop-in')
+			.fromTo(
+				element.querySelector('#prefix__bird'),
+				1,
+				{
+					y: 0,
+					scale: 0.01,
+					autoAlpha: 0,
+					transformOrigin: 'center bottom',
+				},
+				{
+					y: '+=60',
+					scale: 0.5,
+					autoAlpha: 1,
+					transformOrigin: 'center bottom',
+					zIndex: '-100',
+					ease: Power4.easeOut
+				},
+			)
+			.to(element.querySelector('#prefix__bird'), 1, {
+				y: 65,
 				scale: 1,
 				autoAlpha: 1,
 				transformOrigin: 'center bottom',
-				ease: Back.easeInOut,
-				y: 50
-			},
-			0.025,
-		);
+				ease: Power4.easeOut,
+			})
+			.to(element.querySelector('#prefix__BirdHat'), 0.5, {
+				rotation: 12,
+				x: '5',
+				y: '-3.5',
+			});
 
 		const { clearTl } = clear({ element });
 		const { enterFloorVegetation } = showVegetation({ element });
