@@ -54,10 +54,7 @@ function SvgComponent(props) {
 		return { enterFloorVegetation };
 	};
 
-	useEffect(() => {
-		const element = ref.current;
-		const masterTl = new TimelineMax();
-
+	const treeEntry = ({ element }) => {
 		const treeStuffTl = new TimelineMax();
 
 		treeStuffTl
@@ -218,12 +215,51 @@ function SvgComponent(props) {
 					y: 45,
 					transformOrigin: 'center bottom',
 					ease: Back.easeInOut,
+					onComplete: startBlinking,
 				},
 				'-=1',
 			);
 
+		return { treeStuffTl };
+	};
+
+	const startBlinking = () => {
+		const birdBlinksTl = new TimelineMax({ repeat: -1, repeatDelay: 5 });
+
+		birdBlinksTl
+			.set('#prefix__rightEye, #prefix__leftEye', {
+				autoAlpha: 0,
+			})
+			.set(
+				'#prefix__rightEye, #prefix__leftEye',
+				{
+					autoAlpha: 1,
+				},
+				'+=0.2',
+			)
+			.set(
+				'#prefix__rightEye, #prefix__leftEye',
+				{
+					autoAlpha: 0,
+				},
+				'+=1.3',
+			)
+			.set(
+				'#prefix__rightEye, #prefix__leftEye',
+				{
+					autoAlpha: 1,
+				},
+				'+=.2',
+			);
+	};
+
+	useEffect(() => {
+		const element = ref.current;
+		const masterTl = new TimelineMax();
+
 		const { clearTl } = clear({ element });
 		const { enterFloorVegetation } = showVegetation({ element });
+		const { treeStuffTl } = treeEntry({ element });
 
 		masterTl.add(clearTl).add(enterFloorVegetation).add(treeStuffTl);
 	}, []);
