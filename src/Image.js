@@ -111,7 +111,7 @@ function SvgComponent(props) {
 					autoAlpha: 1,
 					transformOrigin: 'center bottom',
 					zIndex: '-100',
-					ease: Power4.easeOut
+					ease: Power4.easeOut,
 				},
 			)
 			.to(element.querySelector('#prefix__bird'), 1, {
@@ -121,11 +121,41 @@ function SvgComponent(props) {
 				transformOrigin: 'center bottom',
 				ease: Power4.easeOut,
 			})
-			.to(element.querySelector('#prefix__BirdHat'), 0.5, {
-				rotation: 12,
-				x: '5',
-				y: '-3.5',
-			});
+			.to(
+				element.querySelector('#prefix__BirdHat'),
+				0.5,
+				{
+					rotation: 12,
+					x: '5',
+					y: '-3.5',
+				},
+				'nest-pop-in+=.1',
+			)
+			.add('bird-peeking')
+			.set('#prefix__rightEye, #prefix__leftEye', {
+				autoAlpha: 0,
+			})
+			.set(
+				'#prefix__rightEye, #prefix__leftEye',
+				{
+					autoAlpha: 1,
+				},
+				'+=0.2',
+			)
+			.set(
+				'#prefix__rightEye, #prefix__leftEye',
+				{
+					autoAlpha: 0,
+				},
+				'+=0.3',
+			)
+			.set(
+				'#prefix__rightEye, #prefix__leftEye',
+				{
+					autoAlpha: 1,
+				},
+				'+=0.4',
+			);
 
 		const { clearTl } = clear({ element });
 		const { enterFloorVegetation } = showVegetation({ element });
