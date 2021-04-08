@@ -1,6 +1,14 @@
 import * as React from 'react';
 import { useEffect, useRef } from 'react';
-import { TimelineMax, Back, Elastic, Bounce, Power4 } from 'gsap/all';
+import {
+	TimelineMax,
+	Back,
+	Elastic,
+	Bounce,
+	Power4,
+	TweenMax,
+	Linear,
+} from 'gsap/all';
 
 function SvgComponent(props) {
 	const ref = useRef(null);
@@ -287,7 +295,7 @@ function SvgComponent(props) {
 
 	const startLoops = () => {
 		const colors = ['#edcc93', '#f7e3ae', '#f3ebcc', '#edcc93'];
-		const bgTl = new TimelineMax({ repeat: -1 });
+		const bgTl = new TimelineMax({ repeat: -1, repeatDelay: 2 });
 
 		bgTl
 			.to('.card-container', 3, { background: colors[0] })
